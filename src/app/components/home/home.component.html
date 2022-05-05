@@ -1,0 +1,161 @@
+<div class="container">
+  <div class="row mt-2">
+    <h1 class="text-center">Registro</h1>
+    <mat-stepper [linear]="isLinear" #stepper>
+      <mat-step [stepControl]="generalFormGroup">
+        <form [formGroup]="generalFormGroup">
+          <ng-template matStepLabel>Información general</ng-template>
+          <mat-form-field>
+            <mat-select placeholder="Escoge tu pais" formControlName="pais" name="operacion" ngDefaultControl>
+              <mat-option *ngFor="let pais of paises" [value]="pais">
+                {{pais}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <br>
+
+          <mat-form-field>
+            <mat-label>Primer nombre</mat-label>
+            <input matInput placeholder="Nombre" formControlName="nombre" required>
+          </mat-form-field>
+
+          <mat-form-field class="m-4">
+            <mat-label>Segundo nombre</mat-label>
+            <input matInput placeholder="Segundo nombre" formControlName="segundoNombre" required>
+          </mat-form-field>
+
+          <br>
+
+          <mat-form-field>
+            <mat-label>Fecha de nacimiento</mat-label>
+            <input matInput [matDatepicker]="picker" formControlName="fecha" required>
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+
+          <mat-form-field class="m-4">
+            <mat-select placeholder="Género" formControlName="genero" name="genero" ngDefaultControl>
+              <mat-option *ngFor="let genero of genero" [value]="genero">
+                {{genero}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <br>
+
+          <mat-form-field>
+            <mat-select placeholder="Tipo de documento" formControlName="documento" name="documento" ngDefaultControl>
+              <mat-option *ngFor="let documento of documento" [value]="documento">
+                {{documento}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field class="m-4">
+            <mat-label>Número de documento</mat-label>
+            <input matInput placeholder="Número de documento" formControlName="nDocumento" required>
+          </mat-form-field>
+          <div class="error-message" *ngIf="!generalFormGroup.controls.nDocumento.valid  && generalFormGroup.controls.nDocumento.dirty">
+            <p style="color: red;">Este campo no se permite texto, el minimo de caracteres es de 5, no uses puntos ni comas</p>
+          </div>
+
+          <br>
+
+          <div>
+            <label for="frente">Foto documento – Frente</label>
+            <input type="file" accept=".jpg" formControlName="frente" (change)="cargarFrente($event)">
+          </div>
+
+          <div class="mt-2">
+            <label for="frente">Foto documento – Reverso</label>
+            <input type="file" accept=".jpg," formControlName="reverso" (change)="cargarReverso($event)">
+          </div>
+
+          <div>
+            <button mat-button matStepperNext class="btn btn-primary">Siguiente</button>
+          </div>
+        </form>
+      </mat-step>
+
+      <mat-step [stepControl]="personalFormGroup" label="Información personal">
+        <form [formGroup]="personalFormGroup">
+          <mat-form-field>
+            <mat-label>Email</mat-label>
+            <input matInput formControlName="email" type="email" placeholder="Email" required>
+          </mat-form-field>
+          <div class="error-message" *ngIf="!personalFormGroup.controls.email.valid  && personalFormGroup.controls.email.dirty">
+            <p style="color: red;">Por favor ingrese un correo con un formato valido</p>
+          </div>
+
+          <br>
+
+          <mat-form-field >
+            <mat-label>Password</mat-label>
+            <input matInput formControlName="password" type="password" placeholder="Password" required>
+          </mat-form-field>
+          <div class="error-message" *ngIf="!personalFormGroup.controls.password.valid  && personalFormGroup.controls.password.dirty">
+            <p style="color: red;">La contraseña debe tener al menos 6 caracteres</p>
+          </div>
+
+          <mat-form-field class="m-4">
+            <mat-label>Confirme su contraseña</mat-label>
+            <input matInput formControlName="retype" type="password" placeholder="Confirme su password" required>
+          </mat-form-field>
+          <div class="error-message" *ngIf="!personalFormGroup.controls.retype.valid  && personalFormGroup.controls.retype.dirty">
+            <p style="color: red;">La contraseña debe tener al menos 6 caracteres</p>
+          </div>
+
+          <br>
+
+          <mat-form-field >
+            <mat-label>Teléfono</mat-label>
+            <input matInput formControlName="telefono" type="number" placeholder="Número de teléfono" required>
+          </mat-form-field>
+          <div class="error-message" *ngIf="!personalFormGroup.controls.telefono.valid  && personalFormGroup.controls.telefono.dirty">
+            <p style="color: red;">El número debe contener 10 dígitos</p>
+          </div>
+
+          <mat-form-field class="m-4">
+            <mat-label>Celular</mat-label>
+            <input matInput formControlName="celular" type="number" placeholder="Número de celular" required>
+          </mat-form-field>
+          <div class="error-message" *ngIf="!personalFormGroup.controls.celular.valid  && personalFormGroup.controls.celular.dirty">
+            <p style="color: red;">El número debe contener 10 dígitos</p>
+          </div>
+
+          <div>
+            <button mat-button matStepperPrevious class="btn btn-warning text-light">Volver</button>
+            <button mat-button matStepperNext class="btn btn-primary m-2">Siguiente</button>
+          </div>
+        </form>
+      </mat-step>
+
+      <mat-step [stepControl]="ubicacionFormGroup" label="Ubicación">
+        <form [formGroup]="ubicacionFormGroup">
+          <mat-form-field appearance="fill">
+            <mat-label>Dirección residencia</mat-label>
+            <input matInput formControlName="direccion" type="text" placeholder="Dirección residencia" required>
+          </mat-form-field>
+
+          <br>
+
+          <mat-form-field appearance="fill">
+            <mat-label>Código postal</mat-label>
+            <input matInput formControlName="codigo" type="number" placeholder="Código postal" required>
+          </mat-form-field>
+          <div class="error-message" *ngIf="!ubicacionFormGroup.controls.codigo.valid  && ubicacionFormGroup.controls.codigo.dirty">
+            <p style="color: red;">El código debe contener 5 dígitos</p>
+          </div>
+        </form>
+
+        <div>
+          <button mat-button matStepperPrevious class="btn btn-warning text-light">Volver</button>
+          <button mat-button (click)="stepper.reset()" class="btn btn-danger m-2">Reset</button>
+          <button mat-button class="btn btn-success" (click)="registro()">Registrarse</button>
+        </div>
+      </mat-step>
+    </mat-stepper>
+  </div>
+</div>
